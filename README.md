@@ -1,210 +1,230 @@
-# Online Feedback Analysis and Action Report Management System
+# CSE Department Feedback System
 
-A comprehensive web-based system for collecting, analyzing, and managing student feedback in educational institutions. The system enables students to provide anonymous feedback, faculty to create customized feedback forms and track responses, and administrators to oversee the entire process and generate reports.
+## Overview
+A complete feedback management system for the CSE Department where faculty create feedback forms for their subjects, students submit feedback, and administrators manage the entire system.
 
 ## Features
 
-### For Students
-- **Anonymous Feedback Submission**: Submit feedback securely without revealing identity
-- **Multiple Programme Support**: Support for B.Tech, MCA, and M.Tech programmes
-- **Course-Specific Feedback**: Provide feedback for specific courses assigned by faculty
-- **Feedback Tracking**: View status of submitted feedback forms
+### Admin Dashboard
+- **User Management**: Approve/reject pending faculty and student registrations
+- **Reports**: View feedback statistics by course code and subject
+- **Full System Control**: Access all data and manage approvals
 
-### For Faculty
-- **Custom Feedback Forms**: Create tailored feedback forms for each course
-- **Student Enrollment**: Add and manage students in courses
-- **Feedback Analysis**: View and analyze feedback data with interactive charts
-- **Action Management**: Record and track actions taken in response to feedback
-- **Comprehensive Reports**: Generate detailed reports on feedback trends
+### Faculty Dashboard
+- **Subject Management**: Add subjects with course codes and semester information
+- **Feedback Forms**: Create customizable feedback forms with multiple question types
+- **Response Tracking**: View all feedback responses for their subjects
 
-### For Administrators
-- **Faculty Approval**: Review and approve faculty registration requests
-- **System Monitoring**: Monitor feedback collection rates and response statistics
-- **User Management**: Manage students, faculty, and system access
-- **Data Integrity**: Ensure system security and data privacy
-- **Cross-Course Reports**: Generate institution-wide feedback reports
+### Student Dashboard
+- **Available Forms**: Browse all feedback forms from their faculty
+- **Feedback Submission**: Submit feedback with different question types (rating, text, multiple choice)
+- **Submission Status**: See which feedback forms have been completed
 
-## Technology Stack
+## Getting Started
 
-### Backend
-- **PHP 7.4+**: Server-side scripting
-- **MySQL**: Database management
-- **Supabase**: Cloud database and real-time features
+### 1. Initial Setup
 
-### Frontend
-- **HTML5**: Semantic markup
-- **CSS3**: Responsive styling with Bootstrap
-- **JavaScript (ES6+)**: Interactive functionality
-- **Vite**: Modern build tool for development
+The system uses Supabase for authentication and data storage. The database schema is automatically created through migrations.
 
-### Security & Configuration
-- **Apache .htaccess**: URL rewriting and access control
-- **Session Management**: Secure user authentication
-- **Input Sanitization**: Protection against XSS and SQL injection
-- **Password Hashing**: Secure password storage
+### 2. User Registration
 
-## Installation
+#### Register as Faculty
+- Register with full name and email
+- Pending approval from admin
+- Once approved, can create subjects and feedback forms
 
-### Prerequisites
-- PHP 7.4 or higher
-- MySQL 5.7 or higher
-- Apache web server with mod_rewrite enabled
-- Node.js 16+ (for frontend development)
-- Composer (optional, for PHP dependencies)
+#### Register as Student
+- Register with full name and email
+- Pending approval from admin
+- Once approved, can submit feedback for available forms
 
-### Setup Steps
+### 3. Admin Approval Workflow
 
-1. **Clone the Repository**
-   ```bash
-   git clone <repository-url>
-   cd feedback_system
-   ```
+1. Navigate to **Admin Dashboard** → **User Management**
+2. Review pending users under "Pending Approvals"
+3. Click **Approve** to grant access or **Reject** to deny
+4. Approved users appear in the "Approved Users" table
 
-2. **Database Setup**
-   - Create a MySQL database
-   - Import the database schema from `supabase/migrations/`
-   - Update database credentials in `config/db.php`
+### 4. Faculty Workflow
 
-3. **Web Server Configuration**
-   - Ensure Apache has mod_rewrite enabled
-   - Point document root to the `feedback_system` directory
-   - Copy `.htaccess` rules are already configured
+#### Creating Subjects
+1. Go to **Faculty Dashboard** → **My Subjects**
+2. Click **Add Subject**
+3. Enter:
+   - Course Code (e.g., CS101)
+   - Subject Name (e.g., Data Structures)
+   - Semester (1-8)
+4. Click **Add Subject**
 
-4. **Dependencies Installation**
-   ```bash
-   # For frontend development
-   npm install
+#### Creating Feedback Forms
+1. Go to **My Subjects** and click **Create Form** on a subject
+2. Enter Form Title and Description
+3. Add Questions by clicking **Add Question**
+   - Choose question type: Rating (1-5), Text Response, or Multiple Choice
+   - Enter question text
+   - Mark as required if needed
+4. Click **Create Form**
 
-   # For production build
-   npm run build
-   ```
+#### Viewing Feedback
+- Navigate to **Feedback Forms** to see all forms created
+- Click on a form to view submitted responses
+- Responses are displayed with student anonymity maintained
 
-5. **File Permissions**
-   ```bash
-   # Set appropriate permissions for web server
-   chmod 755 -R .
-   chown www-data:www-data -R .
-   ```
+### 5. Student Workflow
 
-6. **Environment Configuration**
-   - Update database connection details in `config/db.php`
-   - Configure Supabase credentials if using cloud database
-   - Set up email configuration for notifications (if implemented)
+#### Submitting Feedback
+1. Go to **Student Dashboard**
+2. Browse available forms created by faculty
+3. Click **Fill Form** to start
+4. Answer all required questions:
+   - **Rating**: Click numbers 1-5
+   - **Text**: Type your response
+   - **Multiple Choice**: Select one option
+5. Click **Submit Feedback**
+6. Form status changes to "Submitted"
 
-## Usage
+#### Viewing Submission Status
+- "Submitted" badge indicates already completed feedback
+- Only fill forms once (system prevents duplicate submissions)
 
-### Accessing the System
-1. Open your web browser and navigate to the application URL
-2. Choose your user type: Student, Faculty, or Admin
-3. Register or login based on your role
+### 6. Admin Reports
 
-### Student Workflow
-1. Login with roll number, name, and programme
-2. View assigned feedback forms
-3. Submit feedback anonymously
-4. Track submission status
+1. Go to **Admin Dashboard** → **Reports**
+2. View feedback statistics:
+   - Course Code
+   - Subject Name
+   - Semester
+   - Number of Feedback Forms
+   - Total Feedback Count
 
-### Faculty Workflow
-1. Register and wait for admin approval
-2. Login with approved credentials
-3. Create courses and enroll students
-4. Design custom feedback forms
-5. Analyze feedback data
-6. Record improvement actions
+## Question Types in Feedback Forms
 
-### Admin Workflow
-1. Login with admin credentials
-2. Review faculty registration requests
-3. Approve or reject faculty accounts
-4. Monitor system usage and feedback rates
-5. Generate comprehensive reports
+### 1. Rating Scale (1-5)
+- Student selects a number from 1 to 5
+- Stored as numeric value
+- Best for satisfaction, quality, or performance questions
 
-## Database Schema
+### 2. Text Response
+- Student types free-form text
+- No character limit
+- Best for suggestions, comments, or open-ended feedback
 
-The system uses the following main tables:
-- `students`: Student information and credentials
-- `faculty`: Faculty member details and approval status
-- `admins`: Administrator accounts
-- `courses`: Course information
-- `feedback_forms`: Feedback form templates
-- `feedback_responses`: Individual feedback submissions
-- `actions`: Recorded improvement actions
+### 3. Multiple Choice
+- Student selects one option from predefined choices
+- Options must be pre-defined when creating form
+- Best for specific categorical feedback
 
-## Development
+## Database Structure
 
-### Frontend Development
-```bash
-# Start development server
-npm run dev
+### Tables
 
-# Build for production
-npm run build
+**users**
+- id: Unique user identifier
+- email: User email (unique)
+- password_hash: Encrypted password
+- full_name: User's full name
+- role: 'admin', 'faculty', or 'student'
+- approved: Boolean (users must be approved to access)
+- created_at: Registration timestamp
 
-# Preview production build
-npm run preview
-```
+**subjects**
+- id: Unique subject identifier
+- course_code: Unique course code (e.g., CS101)
+- subject_name: Name of the subject
+- semester: Semester number (1-8)
+- faculty_id: Faculty member teaching the subject
+- created_at: Creation timestamp
 
-### Project Structure
-```
-feedback_system/
-├── admin/              # Administrator panel
-├── faculty/            # Faculty dashboard and tools
-├── student/            # Student interface
-├── includes/           # Common PHP includes (header, footer, functions)
-├── assets/             # CSS, JS, and static files
-├── config/             # Database and configuration files
-├── supabase/           # Database migrations and setup
-├── public/             # Public assets
-├── index.php           # Landing page
-├── login.php           # Authentication
-└── README.md           # This file
-```
+**feedback_forms**
+- id: Unique form identifier
+- subject_id: Reference to the subject
+- faculty_id: Faculty who created the form
+- title: Form title
+- description: Form description
+- questions: JSON array of question objects
+- created_at: Creation timestamp
+
+**feedback_responses**
+- id: Unique response identifier
+- form_id: Reference to the feedback form
+- student_id: Student who submitted
+- subject_id: Reference to the subject
+- responses: JSON object with answers
+- submitted_at: Submission timestamp
 
 ## Security Features
 
-- **Session Management**: Secure session handling with automatic logout
-- **Input Validation**: Comprehensive input sanitization and validation
-- **SQL Injection Protection**: Prepared statements and parameterized queries
-- **XSS Prevention**: Output escaping and content security policies
-- **Access Control**: Role-based access control for different user types
-- **File Upload Security**: Restricted file types and secure upload handling
+### Row Level Security (RLS)
+- Users can only access their own data by default
+- Faculty can only access their own subjects and forms
+- Students can only submit feedback for available forms
+- Admins have full system access
 
-## Contributing
+### Authentication
+- Supabase Auth handles secure password storage
+- Session management prevents unauthorized access
+- Auto-logout on suspicious activity
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/new-feature`)
-3. Commit your changes (`git commit -am 'Add new feature'`)
-4. Push to the branch (`git push origin feature/new-feature`)
-5. Create a Pull Request
+## API Endpoints
 
-### Development Guidelines
-- Follow PSR-12 coding standards for PHP
-- Use meaningful variable and function names
-- Add comments for complex logic
-- Test thoroughly before submitting changes
-- Update documentation as needed
+The system uses Supabase REST API internally:
+- `/rest/v1/users` - User management
+- `/rest/v1/subjects` - Subject data
+- `/rest/v1/feedback_forms` - Feedback forms
+- `/rest/v1/feedback_responses` - Feedback submissions
 
-## License
+## Troubleshooting
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+### Can't Log In
+- Verify email and password are correct
+- Check if account is approved (admin approval required)
+- Clear browser cache and try again
+
+### Can't Create Subject (Faculty)
+- Ensure your account is approved by admin
+- Check if you're logged in as faculty
+
+### Can't Submit Feedback (Student)
+- Ensure your account is approved by admin
+- Check if feedback form is still available
+- Can only submit feedback once per form
+
+### Missing Forms
+- Forms only appear if faculty has created them
+- Check with your faculty to ensure forms are created
+
+## Technical Stack
+
+- **Frontend**: React 18 + TypeScript + Vite
+- **Styling**: Tailwind CSS
+- **Database**: Supabase (PostgreSQL)
+- **Authentication**: Supabase Auth
+- **Icons**: Lucide React
+
+## File Structure
+
+```
+src/
+├── components/
+│   ├── AdminDashboard.tsx
+│   ├── FacultyDashboard.tsx
+│   ├── StudentDashboard.tsx
+│   ├── Login.tsx
+│   └── Register.tsx
+├── context/
+│   └── AuthContext.tsx
+├── lib/
+│   └── supabase.ts
+├── types/
+│   └── index.ts
+├── App.tsx
+└── main.tsx
+```
 
 ## Support
 
-For support and questions:
-- Create an issue in the repository
-- Contact the development team
-- Check the documentation for common solutions
-
-## Future Enhancements
-
-- [ ] Mobile application development
-- [ ] Advanced analytics and AI-powered insights
-- [ ] Integration with learning management systems
-- [ ] Multi-language support
-- [ ] Automated feedback reminders
-- [ ] Advanced reporting with data visualization
-- [ ] API development for third-party integrations
-
----
-
-**Note**: This system is designed for educational institutions and should be deployed in a secure server environment with regular backups and monitoring.
+For issues or questions:
+1. Check the troubleshooting section
+2. Verify all required fields are filled
+3. Clear browser cache and reload
+4. Contact system administrator
